@@ -1,0 +1,66 @@
+﻿@model API.Models.ALERGIA_PACIENTE
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ALERGIA_PACIENTE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FECHA_DIAGNOSTICO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHA_DIAGNOSTICO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDICAMENTOS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDICAMENTOS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ALERGIA.DESCRIPCION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ALERGIA.DESCRIPCION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MEDICO.CODIGO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MEDICO.CODIGO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PACIENTE.NOMBRE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PACIENTE.NOMBRE)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,1002 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EDS_LENGUAJESModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ALERGIA">
+          <Key>
+            <PropertyRef Name="NOMBRE" />
+          </Key>
+          <Property Name="NOMBRE" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ALERGIA_PACIENTE">
+          <Key>
+            <PropertyRef Name="CEDULA_P" />
+            <PropertyRef Name="NOMBRE_ALERGIA" />
+          </Key>
+          <Property Name="CEDULA_P" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="CEDULA_M" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="NOMBRE_ALERGIA" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FECHA_DIAGNOSTICO" Type="date" Nullable="false" />
+          <Property Name="MEDICAMENTOS" Type="varchar(max)" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CITA">
+          <Key>
+            <PropertyRef Name="CEDULA_P" />
+            <PropertyRef Name="CENTRO_SALUD" />
+            <PropertyRef Name="FECHA_H" />
+            <PropertyRef Name="ESPECIALIDAD" />
+          </Key>
+          <Property Name="CEDULA_P" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="CENTRO_SALUD" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FECHA_H" Type="date" Nullable="false" />
+          <Property Name="ESPECIALIDAD" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar(max)" />
+          <Property Name="CEDULA_M" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+          </Key>
+          <Property Name="CEDULA" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="CODIGO" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="CONTRASENNA" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
+          <Property Name="ESPECIALIDAD" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+          </Key>
+          <Property Name="CEDULA" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="APELLIDOS" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FECHA_NAC" Type="date" Nullable="false" />
+          <Property Name="TIPO_SANGRE" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="ESTADO_CIVIL" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PROVINCIA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CANTON" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DISTRITO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="OTRAS_SEÑAS" Type="varchar" MaxLength="100" />
+          <Property Name="CONTRASENNA" Type="varchar" MaxLength="9" />
+        </EntityType>
+        <EntityType Name="PACIENTE_TELEFONO">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+            <PropertyRef Name="TELEFONO" />
+          </Key>
+          <Property Name="CEDULA" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="TELEFONO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VACUNA">
+          <Key>
+            <PropertyRef Name="NOMBRE" />
+          </Key>
+          <Property Name="NOMBRE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VACUNA_PACIENTE">
+          <Key>
+            <PropertyRef Name="NOMBRE_VACUNA" />
+            <PropertyRef Name="CEDULA_P" />
+            <PropertyRef Name="FECHA_APLICACION" />
+          </Key>
+          <Property Name="NOMBRE_VACUNA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CEDULA_P" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="CEDULA_M" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="FECHA_APLICACION" Type="date" Nullable="false" />
+          <Property Name="FECHA_P_DOSIS" Type="date" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CEDULA_MEDICO">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="ALERGIA_PACIENTE" Type="Self.ALERGIA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="ALERGIA_PACIENTE">
+              <PropertyRef Name="CEDULA_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_MEDICO_CITA">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="CEDULA_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_MEDICO_VP">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="VACUNA_PACIENTE" Type="Self.VACUNA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="VACUNA_PACIENTE">
+              <PropertyRef Name="CEDULA_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="ALERGIA_PACIENTE" Type="Self.ALERGIA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="ALERGIA_PACIENTE">
+              <PropertyRef Name="CEDULA_P" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE_CITA">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="CEDULA_P" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE_PT">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="PACIENTE_TELEFONO" Type="Self.PACIENTE_TELEFONO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="PACIENTE_TELEFONO">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE_VP">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="VACUNA_PACIENTE" Type="Self.VACUNA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="VACUNA_PACIENTE">
+              <PropertyRef Name="CEDULA_P" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NOMBRE_ALERGIA">
+          <End Role="ALERGIA" Type="Self.ALERGIA" Multiplicity="1" />
+          <End Role="ALERGIA_PACIENTE" Type="Self.ALERGIA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ALERGIA">
+              <PropertyRef Name="NOMBRE" />
+            </Principal>
+            <Dependent Role="ALERGIA_PACIENTE">
+              <PropertyRef Name="NOMBRE_ALERGIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_actualizar_desc_cita" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDP" Type="int" Mode="In" />
+          <Parameter Name="DESCRIP" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_buscar_cita" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULA" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_buscar_usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula_p" Type="varchar" Mode="In" />
+          <Parameter Name="codigo_p" Type="varchar" Mode="In" />
+          <Parameter Name="contrasenna_p" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_buscar_usuario_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula_p" Type="varchar" Mode="In" />
+          <Parameter Name="contrasenna_p" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_eliminar_alergia_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDC" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_eliminar_cita" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDC" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_eliminar_vacuna_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDC" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_insertar_alergia_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULA_P" Type="varchar" Mode="In" />
+          <Parameter Name="CEDULA_M" Type="varchar" Mode="In" />
+          <Parameter Name="NOMBRE_ALERGIA" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_DIAGNOSTICO" Type="date" Mode="In" />
+          <Parameter Name="MEDICAMENTOS" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_insertar_cita" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDM" Type="varchar" Mode="In" />
+          <Parameter Name="CEDP" Type="varchar" Mode="In" />
+          <Parameter Name="CENTRO_S" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA" Type="date" Mode="In" />
+          <Parameter Name="ESP" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_insertar_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULA" Type="varchar" Mode="In" />
+          <Parameter Name="NOMBRE" Type="varchar" Mode="In" />
+          <Parameter Name="APELLIDOS" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_NAC" Type="date" Mode="In" />
+          <Parameter Name="TIPO_SANGRE" Type="varchar" Mode="In" />
+          <Parameter Name="ESTADO_CIVIL" Type="varchar" Mode="In" />
+          <Parameter Name="PROVINCIA" Type="varchar" Mode="In" />
+          <Parameter Name="CANTON" Type="varchar" Mode="In" />
+          <Parameter Name="DISTRITO" Type="varchar" Mode="In" />
+          <Parameter Name="OTRAS_SEÑAS" Type="varchar" Mode="In" />
+          <Parameter Name="CONTRASENNA" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_insertar_vacuna_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NOMBRE_V" Type="varchar" Mode="In" />
+          <Parameter Name="CEDULA" Type="varchar" Mode="In" />
+          <Parameter Name="CEDULAM" Type="varchar" Mode="In" />
+          <Parameter Name="FECHA_A" Type="date" Mode="In" />
+          <Parameter Name="FECHA_P" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_actualizar_info_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULAP" Type="varchar" Mode="In" />
+          <Parameter Name="ESTADOC" Type="varchar" Mode="In" />
+          <Parameter Name="PROV" Type="varchar" Mode="In" />
+          <Parameter Name="CANTON" Type="varchar" Mode="In" />
+          <Parameter Name="DISTRITO" Type="varchar" Mode="In" />
+          <Parameter Name="OTRAS_S" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_alergia_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_listar_alergia_paciente_por_cedula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULAP" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_alergias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_listar_cedula_vacunados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_listar_cedulas_alergicos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_listar_citas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_listar_citas_ALL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_listar_citas_por_cedula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDP" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_info_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULAP" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_vacuna_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_listar_vacuna_paciente_por_cedula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CEDULAP" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_listar_vacunas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="EDS_LENGUAJESModelStoreContainer">
+          <EntitySet Name="ALERGIA" EntityType="Self.ALERGIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ALERGIA_PACIENTE" EntityType="Self.ALERGIA_PACIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CITA" EntityType="Self.CITA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACIENTE_TELEFONO" EntityType="Self.PACIENTE_TELEFONO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VACUNA" EntityType="Self.VACUNA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VACUNA_PACIENTE" EntityType="Self.VACUNA_PACIENTE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CEDULA_MEDICO" Association="Self.FK_CEDULA_MEDICO">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="ALERGIA_PACIENTE" EntitySet="ALERGIA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_MEDICO_CITA" Association="Self.FK_CEDULA_MEDICO_CITA">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_MEDICO_VP" Association="Self.FK_CEDULA_MEDICO_VP">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="VACUNA_PACIENTE" EntitySet="VACUNA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE" Association="Self.FK_CEDULA_PACIENTE">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="ALERGIA_PACIENTE" EntitySet="ALERGIA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE_CITA" Association="Self.FK_CEDULA_PACIENTE_CITA">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE_PT" Association="Self.FK_CEDULA_PACIENTE_PT">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="PACIENTE_TELEFONO" EntitySet="PACIENTE_TELEFONO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE_VP" Association="Self.FK_CEDULA_PACIENTE_VP">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="VACUNA_PACIENTE" EntitySet="VACUNA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NOMBRE_ALERGIA" Association="Self.FK_NOMBRE_ALERGIA">
+            <End Role="ALERGIA" EntitySet="ALERGIA" />
+            <End Role="ALERGIA_PACIENTE" EntitySet="ALERGIA_PACIENTE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EDS_LENGUAJESModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ALERGIA">
+          <Key>
+            <PropertyRef Name="NOMBRE" />
+          </Key>
+          <Property Name="NOMBRE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ALERGIA_PACIENTE" Relationship="Self.FK_NOMBRE_ALERGIA" FromRole="ALERGIA" ToRole="ALERGIA_PACIENTE" />
+        </EntityType>
+        <EntityType Name="ALERGIA_PACIENTE">
+          <Key>
+            <PropertyRef Name="CEDULA_P" />
+            <PropertyRef Name="NOMBRE_ALERGIA" />
+          </Key>
+          <Property Name="CEDULA_P" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CEDULA_M" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE_ALERGIA" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_DIAGNOSTICO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="MEDICAMENTOS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="ALERGIA" Relationship="Self.FK_NOMBRE_ALERGIA" FromRole="ALERGIA_PACIENTE" ToRole="ALERGIA" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK_CEDULA_MEDICO" FromRole="ALERGIA_PACIENTE" ToRole="MEDICO" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK_CEDULA_PACIENTE" FromRole="ALERGIA_PACIENTE" ToRole="PACIENTE" />
+        </EntityType>
+        <EntityType Name="CITA">
+          <Key>
+            <PropertyRef Name="CEDULA_P" />
+            <PropertyRef Name="CENTRO_SALUD" />
+            <PropertyRef Name="FECHA_H" />
+            <PropertyRef Name="ESPECIALIDAD" />
+          </Key>
+          <Property Name="CEDULA_P" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CENTRO_SALUD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_H" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ESPECIALIDAD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CEDULA_M" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK_CEDULA_MEDICO_CITA" FromRole="CITA" ToRole="MEDICO" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK_CEDULA_PACIENTE_CITA" FromRole="CITA" ToRole="PACIENTE" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+          </Key>
+          <Property Name="CEDULA" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CODIGO" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CONTRASENNA" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ESPECIALIDAD" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ALERGIA_PACIENTE" Relationship="Self.FK_CEDULA_MEDICO" FromRole="MEDICO" ToRole="ALERGIA_PACIENTE" />
+          <NavigationProperty Name="CITA" Relationship="Self.FK_CEDULA_MEDICO_CITA" FromRole="MEDICO" ToRole="CITA" />
+          <NavigationProperty Name="VACUNA_PACIENTE" Relationship="Self.FK_CEDULA_MEDICO_VP" FromRole="MEDICO" ToRole="VACUNA_PACIENTE" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+          </Key>
+          <Property Name="CEDULA" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="APELLIDOS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_NAC" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TIPO_SANGRE" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ESTADO_CIVIL" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PROVINCIA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CANTON" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DISTRITO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OTRAS_SEÑAS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRASENNA" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ALERGIA_PACIENTE" Relationship="Self.FK_CEDULA_PACIENTE" FromRole="PACIENTE" ToRole="ALERGIA_PACIENTE" />
+          <NavigationProperty Name="CITA" Relationship="Self.FK_CEDULA_PACIENTE_CITA" FromRole="PACIENTE" ToRole="CITA" />
+          <NavigationProperty Name="PACIENTE_TELEFONO" Relationship="Self.FK_CEDULA_PACIENTE_PT" FromRole="PACIENTE" ToRole="PACIENTE_TELEFONO" />
+          <NavigationProperty Name="VACUNA_PACIENTE" Relationship="Self.FK_CEDULA_PACIENTE_VP" FromRole="PACIENTE" ToRole="VACUNA_PACIENTE" />
+        </EntityType>
+        <EntityType Name="PACIENTE_TELEFONO">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+            <PropertyRef Name="TELEFONO" />
+          </Key>
+          <Property Name="CEDULA" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TELEFONO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK_CEDULA_PACIENTE_PT" FromRole="PACIENTE_TELEFONO" ToRole="PACIENTE" />
+        </EntityType>
+        <EntityType Name="VACUNA">
+          <Key>
+            <PropertyRef Name="NOMBRE" />
+          </Key>
+          <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VACUNA_PACIENTE">
+          <Key>
+            <PropertyRef Name="NOMBRE_VACUNA" />
+            <PropertyRef Name="CEDULA_P" />
+            <PropertyRef Name="FECHA_APLICACION" />
+          </Key>
+          <Property Name="NOMBRE_VACUNA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CEDULA_P" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CEDULA_M" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_APLICACION" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FECHA_P_DOSIS" Type="DateTime" Precision="0" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK_CEDULA_MEDICO_VP" FromRole="VACUNA_PACIENTE" ToRole="MEDICO" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK_CEDULA_PACIENTE_VP" FromRole="VACUNA_PACIENTE" ToRole="PACIENTE" />
+        </EntityType>
+        <Association Name="FK_NOMBRE_ALERGIA">
+          <End Role="ALERGIA" Type="Self.ALERGIA" Multiplicity="1" />
+          <End Role="ALERGIA_PACIENTE" Type="Self.ALERGIA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ALERGIA">
+              <PropertyRef Name="NOMBRE" />
+            </Principal>
+            <Dependent Role="ALERGIA_PACIENTE">
+              <PropertyRef Name="NOMBRE_ALERGIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_MEDICO">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="ALERGIA_PACIENTE" Type="Self.ALERGIA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="ALERGIA_PACIENTE">
+              <PropertyRef Name="CEDULA_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="ALERGIA_PACIENTE" Type="Self.ALERGIA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="ALERGIA_PACIENTE">
+              <PropertyRef Name="CEDULA_P" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_MEDICO_CITA">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="CEDULA_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE_CITA">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="CITA" Type="Self.CITA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CITA">
+              <PropertyRef Name="CEDULA_P" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_MEDICO_VP">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="1" />
+          <End Role="VACUNA_PACIENTE" Type="Self.VACUNA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="VACUNA_PACIENTE">
+              <PropertyRef Name="CEDULA_M" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE_PT">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="PACIENTE_TELEFONO" Type="Self.PACIENTE_TELEFONO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="PACIENTE_TELEFONO">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CEDULA_PACIENTE_VP">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="1" />
+          <End Role="VACUNA_PACIENTE" Type="Self.VACUNA_PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="VACUNA_PACIENTE">
+              <PropertyRef Name="CEDULA_P" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MODEL1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ALERGIA" EntityType="Self.ALERGIA" />
+          <EntitySet Name="ALERGIA_PACIENTE" EntityType="Self.ALERGIA_PACIENTE" />
+          <EntitySet Name="CITA" EntityType="Self.CITA" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" />
+          <EntitySet Name="PACIENTE_TELEFONO" EntityType="Self.PACIENTE_TELEFONO" />
+          <EntitySet Name="VACUNA" EntityType="Self.VACUNA" />
+          <EntitySet Name="VACUNA_PACIENTE" EntityType="Self.VACUNA_PACIENTE" />
+          <AssociationSet Name="FK_NOMBRE_ALERGIA" Association="Self.FK_NOMBRE_ALERGIA">
+            <End Role="ALERGIA" EntitySet="ALERGIA" />
+            <End Role="ALERGIA_PACIENTE" EntitySet="ALERGIA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_MEDICO" Association="Self.FK_CEDULA_MEDICO">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="ALERGIA_PACIENTE" EntitySet="ALERGIA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE" Association="Self.FK_CEDULA_PACIENTE">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="ALERGIA_PACIENTE" EntitySet="ALERGIA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_MEDICO_CITA" Association="Self.FK_CEDULA_MEDICO_CITA">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE_CITA" Association="Self.FK_CEDULA_PACIENTE_CITA">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="CITA" EntitySet="CITA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_MEDICO_VP" Association="Self.FK_CEDULA_MEDICO_VP">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="VACUNA_PACIENTE" EntitySet="VACUNA_PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE_PT" Association="Self.FK_CEDULA_PACIENTE_PT">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="PACIENTE_TELEFONO" EntitySet="PACIENTE_TELEFONO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CEDULA_PACIENTE_VP" Association="Self.FK_CEDULA_PACIENTE_VP">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="VACUNA_PACIENTE" EntitySet="VACUNA_PACIENTE" />
+          </AssociationSet>
+          <FunctionImport Name="sp_actualizar_desc_cita">
+            <Parameter Name="IDP" Mode="In" Type="Int32" />
+            <Parameter Name="DESCRIP" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_buscar_cita" ReturnType="Collection(EDS_LENGUAJESModel.sp_buscar_cita_Result)">
+            <Parameter Name="CEDULA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_buscar_usuario" ReturnType="Collection(String)">
+            <Parameter Name="cedula_p" Mode="In" Type="String" />
+            <Parameter Name="codigo_p" Mode="In" Type="String" />
+            <Parameter Name="contrasenna_p" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_buscar_usuario_paciente" ReturnType="Collection(String)">
+            <Parameter Name="cedula_p" Mode="In" Type="String" />
+            <Parameter Name="contrasenna_p" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_eliminar_alergia_paciente">
+            <Parameter Name="IDC" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_eliminar_cita">
+            <Parameter Name="IDC" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_eliminar_vacuna_paciente">
+            <Parameter Name="IDC" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insertar_alergia_paciente">
+            <Parameter Name="CEDULA_P" Mode="In" Type="String" />
+            <Parameter Name="CEDULA_M" Mode="In" Type="String" />
+            <Parameter Name="NOMBRE_ALERGIA" Mode="In" Type="String" />
+            <Parameter Name="FECHA_DIAGNOSTICO" Mode="In" Type="DateTime" />
+            <Parameter Name="MEDICAMENTOS" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insertar_cita">
+            <Parameter Name="CEDM" Mode="In" Type="String" />
+            <Parameter Name="CEDP" Mode="In" Type="String" />
+            <Parameter Name="CENTRO_S" Mode="In" Type="String" />
+            <Parameter Name="FECHA" Mode="In" Type="DateTime" />
+            <Parameter Name="ESP" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insertar_paciente">
+            <Parameter Name="CEDULA" Mode="In" Type="String" />
+            <Parameter Name="NOMBRE" Mode="In" Type="String" />
+            <Parameter Name="APELLIDOS" Mode="In" Type="String" />
+            <Parameter Name="FECHA_NAC" Mode="In" Type="DateTime" />
+            <Parameter Name="TIPO_SANGRE" Mode="In" Type="String" />
+            <Parameter Name="ESTADO_CIVIL" Mode="In" Type="String" />
+            <Parameter Name="PROVINCIA" Mode="In" Type="String" />
+            <Parameter Name="CANTON" Mode="In" Type="String" />
+            <Parameter Name="DISTRITO" Mode="In" Type="String" />
+            <Parameter Name="OTRAS_SEÑAS" Mode="In" Type="String" />
+            <Parameter Name="CONTRASENNA" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insertar_vacuna_paciente">
+            <Parameter Name="NOMBRE_V" Mode="In" Type="String" />
+            <Parameter Name="CEDULA" Mode="In" Type="String" />
+            <Parameter Name="CEDULAM" Mode="In" Type="String" />
+            <Parameter Name="FECHA_A" Mode="In" Type="DateTime" />
+            <Parameter Name="FECHA_P" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_actualizar_info_paciente">
+            <Parameter Name="CEDULAP" Mode="In" Type="String" />
+            <Parameter Name="ESTADOC" Mode="In" Type="String" />
+            <Parameter Name="PROV" Mode="In" Type="String" />
+            <Parameter Name="CANTON" Mode="In" Type="String" />
+            <Parameter Name="DISTRITO" Mode="In" Type="String" />
+            <Parameter Name="OTRAS_S" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_alergia_paciente" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_alergia_paciente_Result)" />
+          <FunctionImport Name="sp_listar_alergia_paciente_por_cedula" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_alergia_paciente_por_cedula_Result)">
+            <Parameter Name="CEDULAP" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_alergias" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_alergias_Result)" />
+          <FunctionImport Name="sp_listar_cedula_vacunados" ReturnType="Collection(String)" />
+          <FunctionImport Name="sp_listar_cedulas_alergicos" ReturnType="Collection(String)" />
+          <FunctionImport Name="sp_listar_citas" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_citas_Result)" />
+          <FunctionImport Name="sp_listar_citas_ALL" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_citas_ALL_Result)" />
+          <FunctionImport Name="sp_listar_citas_por_cedula" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_citas_por_cedula_Result)">
+            <Parameter Name="CEDP" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_info_paciente" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_info_paciente_Result)">
+            <Parameter Name="CEDULAP" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_vacuna_paciente" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_vacuna_paciente_Result)" />
+          <FunctionImport Name="sp_listar_vacuna_paciente_por_cedula" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_vacuna_paciente_por_cedula_Result)">
+            <Parameter Name="CEDULAP" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_listar_vacunas" ReturnType="Collection(EDS_LENGUAJESModel.sp_listar_vacunas_Result)" />
+        </EntityContainer>
+        <ComplexType Name="sp_buscar_cita_Result">
+          <Property Type="String" Name="CEDULA_P" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="CENTRO_SALUD" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FECHA_H" Nullable="false" />
+          <Property Type="String" Name="ESPECIALIDAD" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" />
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_alergia_paciente_Result">
+          <Property Type="String" Name="NOMBRE_ALERGIA" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="FECHA_DIAGNOSTICO" Nullable="false" />
+          <Property Type="String" Name="MEDICAMENTOS" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="CEDULA_P" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_alergia_paciente_por_cedula_Result">
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="NOMBRE_ALERGIA" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="FECHA_DIAGNOSTICO" Nullable="false" />
+          <Property Type="String" Name="MEDICAMENTOS" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_alergias_Result">
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_citas_Result">
+          <Property Type="String" Name="CEDULA_P" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="CENTRO_SALUD" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FECHA_H" Nullable="false" />
+          <Property Type="String" Name="ESPECIALIDAD" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" />
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_citas_ALL_Result">
+          <Property Type="String" Name="CEDULA_P" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="CENTRO_SALUD" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FECHA_H" Nullable="false" />
+          <Property Type="String" Name="ESPECIALIDAD" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" />
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_citas_por_cedula_Result">
+          <Property Type="String" Name="CENTRO_SALUD" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FECHA_H" Nullable="false" />
+          <Property Type="String" Name="ESPECIALIDAD" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="true" />
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NOMBRE" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_info_paciente_Result">
+          <Property Type="String" Name="CEDULA" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="APELLIDOS" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="FECHA_NAC" Nullable="false" />
+          <Property Type="String" Name="TIPO_SANGRE" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="ESTADO_CIVIL" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="PROVINCIA" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CANTON" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="DISTRITO" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="OTRAS_SEÑAS" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CONTRASENNA" Nullable="true" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_vacuna_paciente_Result">
+          <Property Type="String" Name="NOMBRE_VACUNA" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CEDULA_P" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+          <Property Type="DateTime" Name="FECHA_APLICACION" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_P_DOSIS" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_vacuna_paciente_por_cedula_Result">
+          <Property Type="String" Name="NOMBRE_VACUNA" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CEDULA_M" Nullable="false" MaxLength="9" />
+          <Property Type="DateTime" Name="FECHA_APLICACION" Nullable="false" />
+          <Property Type="DateTime" Name="FECHA_P_DOSIS" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_listar_vacunas_Result">
+          <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="DESCRIPCION" Nullable="false" MaxLength="100" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EDS_LENGUAJESModelStoreContainer" CdmEntityContainer="MODEL1">
+          <EntitySetMapping Name="ALERGIA">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.ALERGIA">
+              <MappingFragment StoreEntitySet="ALERGIA">
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ALERGIA_PACIENTE">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.ALERGIA_PACIENTE">
+              <MappingFragment StoreEntitySet="ALERGIA_PACIENTE">
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="NOMBRE_ALERGIA" ColumnName="NOMBRE_ALERGIA" />
+                <ScalarProperty Name="FECHA_DIAGNOSTICO" ColumnName="FECHA_DIAGNOSTICO" />
+                <ScalarProperty Name="MEDICAMENTOS" ColumnName="MEDICAMENTOS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CITA">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.CITA">
+              <MappingFragment StoreEntitySet="CITA">
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CENTRO_SALUD" ColumnName="CENTRO_SALUD" />
+                <ScalarProperty Name="FECHA_H" ColumnName="FECHA_H" />
+                <ScalarProperty Name="ESPECIALIDAD" ColumnName="ESPECIALIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICO">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.MEDICO">
+              <MappingFragment StoreEntitySet="MEDICO">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="CONTRASENNA" ColumnName="CONTRASENNA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESPECIALIDAD" ColumnName="ESPECIALIDAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACIENTE">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.PACIENTE">
+              <MappingFragment StoreEntitySet="PACIENTE">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="FECHA_NAC" ColumnName="FECHA_NAC" />
+                <ScalarProperty Name="TIPO_SANGRE" ColumnName="TIPO_SANGRE" />
+                <ScalarProperty Name="ESTADO_CIVIL" ColumnName="ESTADO_CIVIL" />
+                <ScalarProperty Name="PROVINCIA" ColumnName="PROVINCIA" />
+                <ScalarProperty Name="CANTON" ColumnName="CANTON" />
+                <ScalarProperty Name="DISTRITO" ColumnName="DISTRITO" />
+                <ScalarProperty Name="OTRAS_SEÑAS" ColumnName="OTRAS_SEÑAS" />
+                <ScalarProperty Name="CONTRASENNA" ColumnName="CONTRASENNA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACIENTE_TELEFONO">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.PACIENTE_TELEFONO">
+              <MappingFragment StoreEntitySet="PACIENTE_TELEFONO">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VACUNA">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.VACUNA">
+              <MappingFragment StoreEntitySet="VACUNA">
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VACUNA_PACIENTE">
+            <EntityTypeMapping TypeName="EDS_LENGUAJESModel.VACUNA_PACIENTE">
+              <MappingFragment StoreEntitySet="VACUNA_PACIENTE">
+                <ScalarProperty Name="NOMBRE_VACUNA" ColumnName="NOMBRE_VACUNA" />
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="FECHA_APLICACION" ColumnName="FECHA_APLICACION" />
+                <ScalarProperty Name="FECHA_P_DOSIS" ColumnName="FECHA_P_DOSIS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_actualizar_desc_cita" FunctionName="EDS_LENGUAJESModel.Store.sp_actualizar_desc_cita" />
+          <FunctionImportMapping FunctionImportName="sp_buscar_cita" FunctionName="EDS_LENGUAJESModel.Store.sp_buscar_cita">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_buscar_cita_Result">
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CENTRO_SALUD" ColumnName="CENTRO_SALUD" />
+                <ScalarProperty Name="FECHA_H" ColumnName="FECHA_H" />
+                <ScalarProperty Name="ESPECIALIDAD" ColumnName="ESPECIALIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_buscar_usuario" FunctionName="EDS_LENGUAJESModel.Store.sp_buscar_usuario" />
+          <FunctionImportMapping FunctionImportName="sp_buscar_usuario_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_buscar_usuario_paciente" />
+          <FunctionImportMapping FunctionImportName="sp_eliminar_alergia_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_eliminar_alergia_paciente" />
+          <FunctionImportMapping FunctionImportName="sp_eliminar_cita" FunctionName="EDS_LENGUAJESModel.Store.sp_eliminar_cita" />
+          <FunctionImportMapping FunctionImportName="sp_eliminar_vacuna_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_eliminar_vacuna_paciente" />
+          <FunctionImportMapping FunctionImportName="sp_insertar_alergia_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_insertar_alergia_paciente" />
+          <FunctionImportMapping FunctionImportName="sp_insertar_cita" FunctionName="EDS_LENGUAJESModel.Store.sp_insertar_cita" />
+          <FunctionImportMapping FunctionImportName="sp_insertar_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_insertar_paciente" />
+          <FunctionImportMapping FunctionImportName="sp_insertar_vacuna_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_insertar_vacuna_paciente" />
+          <FunctionImportMapping FunctionImportName="sp_listar_actualizar_info_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_actualizar_info_paciente" />
+          <FunctionImportMapping FunctionImportName="sp_listar_alergia_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_alergia_paciente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_alergia_paciente_Result">
+                <ScalarProperty Name="NOMBRE_ALERGIA" ColumnName="NOMBRE_ALERGIA" />
+                <ScalarProperty Name="FECHA_DIAGNOSTICO" ColumnName="FECHA_DIAGNOSTICO" />
+                <ScalarProperty Name="MEDICAMENTOS" ColumnName="MEDICAMENTOS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_alergia_paciente_por_cedula" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_alergia_paciente_por_cedula">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_alergia_paciente_por_cedula_Result">
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="NOMBRE_ALERGIA" ColumnName="NOMBRE_ALERGIA" />
+                <ScalarProperty Name="FECHA_DIAGNOSTICO" ColumnName="FECHA_DIAGNOSTICO" />
+                <ScalarProperty Name="MEDICAMENTOS" ColumnName="MEDICAMENTOS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_alergias" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_alergias">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_alergias_Result">
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_cedula_vacunados" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_cedula_vacunados" />
+          <FunctionImportMapping FunctionImportName="sp_listar_cedulas_alergicos" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_cedulas_alergicos" />
+          <FunctionImportMapping FunctionImportName="sp_listar_citas" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_citas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_citas_Result">
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CENTRO_SALUD" ColumnName="CENTRO_SALUD" />
+                <ScalarProperty Name="FECHA_H" ColumnName="FECHA_H" />
+                <ScalarProperty Name="ESPECIALIDAD" ColumnName="ESPECIALIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_citas_ALL" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_citas_ALL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_citas_ALL_Result">
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CENTRO_SALUD" ColumnName="CENTRO_SALUD" />
+                <ScalarProperty Name="FECHA_H" ColumnName="FECHA_H" />
+                <ScalarProperty Name="ESPECIALIDAD" ColumnName="ESPECIALIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_citas_por_cedula" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_citas_por_cedula">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_citas_por_cedula_Result">
+                <ScalarProperty Name="CENTRO_SALUD" ColumnName="CENTRO_SALUD" />
+                <ScalarProperty Name="FECHA_H" ColumnName="FECHA_H" />
+                <ScalarProperty Name="ESPECIALIDAD" ColumnName="ESPECIALIDAD" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_info_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_info_paciente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_info_paciente_Result">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="APELLIDOS" ColumnName="APELLIDOS" />
+                <ScalarProperty Name="FECHA_NAC" ColumnName="FECHA_NAC" />
+                <ScalarProperty Name="TIPO_SANGRE" ColumnName="TIPO_SANGRE" />
+                <ScalarProperty Name="ESTADO_CIVIL" ColumnName="ESTADO_CIVIL" />
+                <ScalarProperty Name="PROVINCIA" ColumnName="PROVINCIA" />
+                <ScalarProperty Name="CANTON" ColumnName="CANTON" />
+                <ScalarProperty Name="DISTRITO" ColumnName="DISTRITO" />
+                <ScalarProperty Name="OTRAS_SEÑAS" ColumnName="OTRAS_SEÑAS" />
+                <ScalarProperty Name="CONTRASENNA" ColumnName="CONTRASENNA" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_vacuna_paciente" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_vacuna_paciente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_vacuna_paciente_Result">
+                <ScalarProperty Name="NOMBRE_VACUNA" ColumnName="NOMBRE_VACUNA" />
+                <ScalarProperty Name="CEDULA_P" ColumnName="CEDULA_P" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="FECHA_APLICACION" ColumnName="FECHA_APLICACION" />
+                <ScalarProperty Name="FECHA_P_DOSIS" ColumnName="FECHA_P_DOSIS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_vacuna_paciente_por_cedula" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_vacuna_paciente_por_cedula">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_vacuna_paciente_por_cedula_Result">
+                <ScalarProperty Name="NOMBRE_VACUNA" ColumnName="NOMBRE_VACUNA" />
+                <ScalarProperty Name="CEDULA_M" ColumnName="CEDULA_M" />
+                <ScalarProperty Name="FECHA_APLICACION" ColumnName="FECHA_APLICACION" />
+                <ScalarProperty Name="FECHA_P_DOSIS" ColumnName="FECHA_P_DOSIS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_listar_vacunas" FunctionName="EDS_LENGUAJESModel.Store.sp_listar_vacunas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EDS_LENGUAJESModel.sp_listar_vacunas_Result">
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<API.Models.ALERGIA_PACIENTE>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NOMBRE_ALERGIA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FECHA_DIAGNOSTICO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEDICAMENTOS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PACIENTE.CEDULA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MEDICO.CEDULA)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOMBRE_ALERGIA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FECHA_DIAGNOSTICO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEDICAMENTOS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PACIENTE.CEDULA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MEDICO.CEDULA)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

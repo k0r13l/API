@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="09ebf9967eda45d490e9672e14313366" Name="Diagram1">
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.ALERGIA" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.ALERGIA_PACIENTE" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.CITA" Width="1.5" PointX="6" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.MEDICO" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.PACIENTE" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.PACIENTE_TELEFONO" Width="1.5" PointX="3" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.VACUNA" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EDS_LENGUAJESModel.VACUNA_PACIENTE" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_NOMBRE_ALERGIA" ManuallyRouted="false" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_CEDULA_MEDICO" ManuallyRouted="false" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_CEDULA_PACIENTE" ManuallyRouted="false" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_CEDULA_MEDICO_CITA" ManuallyRouted="false" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_CEDULA_PACIENTE_CITA" ManuallyRouted="false" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_CEDULA_MEDICO_VP" ManuallyRouted="false" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_CEDULA_PACIENTE_PT" ManuallyRouted="false" />
+        <AssociationConnector Association="EDS_LENGUAJESModel.FK_CEDULA_PACIENTE_VP" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
